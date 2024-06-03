@@ -1,4 +1,4 @@
-# [team name] Design Document
+# [Team1] Design Document
 
 ## Instructions
 
@@ -13,11 +13,17 @@ italics)*
 this template for more guidance on the types of information to capture, and the
 level of detail to aim for.*
 
-## *Project Title* Design
+## Financial app - Design
 
 ## 1. Problem Statement
 
-*Explain clearly what problem you are trying to solve.*
+Keep track of the daily to daily expenses and give analytics.
+Instead of having to use a traditional app with icons, the user will have the faster option to type a text to 
+interact with different features of the financial app. 
+
+The user will just have to type a specific format of sentence that will trigger an action.
+For example the user may type the following sentence : "Spend 30$ on McDonalds" (Or use the icons or boxes of the front end).
+That suggests the app that the customer want to add to the daily expenses a record of the purchase of 30 dollars).
 
 
 ## 2. Top Questions to Resolve in Review
@@ -25,22 +31,27 @@ level of detail to aim for.*
 *List the most important questions you have about your design, or things that
 you are still debating internally that you might like help working through.*
 
-1.   
-2.   
+1.   Should we include the icons and the text options or only the text options?
+2.   Should we add more complicated features or not?
 3.  
 
 ## 3. Use Cases
 
-*This is where we work backwards from the customer and define what our customers
-would like to do (and why). You may also include use cases for yourselves, or
-for the organization providing the product to customers.*
+    *This is where we work backwards from the customer and define what our customers
+    would like to do (and why). You may also include use cases for yourselves, or
+    for the organization providing the product to customers.*
 
-U1. *As a [product] customer, I want to `<result>` when I `<action>`*
+U1. As a user, I want to add a new expense so that I can save my expense. 
 
-U2. *As a [product] customer, I want to view my grocery list when I log into the
-grocery list page*
-    
-U3. ...
+U2. As a user, I want to save a new income so that I can save it.
+
+U3. As a user I want to retrieve the list of the current month expenses so that I can make my own analytics.
+
+U4.As user, I want to retrieve the list of the current month income so that I can make my mind about expenses.
+
+U5. As user, I want to retrieve the list of the last month expenses so that I can make my own analytics.
+
+U6. As user, I want to retrieve the list of the last month incomes  so that I can make my mind.
 
 ## 4. Project Scope
 
@@ -50,53 +61,73 @@ discussions from getting sidetracked by aspects you do not intend to handle in
 your design.*
 
 ### 4.1. In Scope
-
-*Which parts of the problem defined in Sections 1 and 3 will you solve with this
-design?*
+*Add a new Expense
+*Add a new income
+*Retrieves the list of expenses
+*Retrieves the list of incomes
+    
 
 ### 4.2. Out of Scope
 
-*Based on your problem description in Sections 1 and 3, are there any aspects
-you are not planning to solve? Do potential expansions or related problems occur
-to you that you want to explicitly say you are not worrying about now? Feel free
-to put anything here that you think your team can't accomplish in the unit, but
-would love to do with more time.*
+*Update an expense
+*Update an income
 
 # 5. Proposed Architecture Overview
 
-*Describe broadly how you are proposing to solve for the requirements you
-described in Section 3.*
-
-*This may include class diagram(s) showing what components you are planning to
-build.*
-
-*You should argue why this architecture (organization of components) is
-reasonable. That is, why it represents a good data flow and a good separation of
-concerns. Where applicable, argue why this architecture satisfies the stated
-requirements.*
+This initial iteration will provide the minimum lovable product
+(MLP) including creating, retrieving, an expense.
+We will use API Gateway to create four endpoints (`CreateExpense`, `GetExpense`, `CreateIncome`, `GetIncome`).
+We will store the expenses in a table called expenses. We will store incomes in a table called Income.
 
 # 6. API
 
 ## 6.1. Public Models
 
-*Define the data models your service will expose in its responses via your
-*`-Model`* package. These will be equivalent to the *`PlaylistModel`* and
-*`SongModel`* from the Unit 3 project.*
+```
+//ExpenseModel
 
-## 6.2. *First Endpoint*
+Integer amount;
+String origin;
+String time;
 
-*Describe the behavior of the first endpoint you will build into your service
-API. This should include what data it requires, what data it returns, and how it
-will handle any known failure cases. You should also include a sequence diagram
-showing how a user interaction goes from user to website to service to database,
-and back. This first endpoint can serve as a template for subsequent endpoints.
-(If there is a significant difference on a subsequent endpoint, review that with
-your team before building it!)*
+//IncomeModel
 
-*(You should have a separate section for each of the endpoints you are expecting
-to build...)*
+Integer amount;
+String time;
+String origin;
 
-## 6.3 *Second Endpoint*
+```
+
+## 6.2. *Create Income endpoint*
+* Accepts `POST` requests to `/incomes`
+* Accepts data to create a new income with a provided amount,  time, and origin. Returns the new income.
+* We will validate that the amount entered is not negative or equal to zero.
+  * If the amount is not validated, we will throw an `InvalidAttributeException`.
+
+    
+## 6.3 *Get income endpoint*
+
+* Accepts `GET` requests to `/incomes/:origin`
+* Accepts an incomes/origin
+    * If the given origin does not exist trows an `InvalidAttributeException`
+
+*(repeat, but you can use shorthand here, indicating what is different, likely
+primarily the data in/out and error conditions. If the sequence diagram is
+nearly identical, you can say in a few words how it is the same/different from
+the first endpoint)*
+
+## 6.4. *Create Expense endpoint*
+* Accepts `POST` requests to `/expenses`
+* Accepts data to create a new expense with a provided amount,  time, and origin. Returns the new expense.
+* We will validate that the amount entered is not negative or equal to zero.
+  * If the amount is not validated, we will throw an `InvalidAttributeException`.
+
+
+## 6.5 *Get expense endpoint*
+
+* Accepts `GET` requests to `/expenses/:origin`
+* Accepts an expenses/origin
+  * If the given origin does not exist trows an `InvalidAttributeException`
 
 *(repeat, but you can use shorthand here, indicating what is different, likely
 primarily the data in/out and error conditions. If the sequence diagram is
@@ -105,10 +136,24 @@ the first endpoint)*
 
 # 7. Tables
 
-*Define the DynamoDB tables you will need for the data your service will use. It
-may be helpful to first think of what objects your service will need, then
-translate that to a table structure, like with the *`Playlist` POJO* versus the
-`playlists` table in the Unit 3 project.*
+### 7.1. `incomes`
+
+```
+time // partition key, string
+origin // String
+amount // number
+
+```
+
+### 7.2. `expenses`
+
+```
+time // partition key, string
+origin // String
+amount // number
+
+```
+
 
 # 8. Pages
 

@@ -1,0 +1,409 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Incomes and expenses - OpenAPI 3.0",
+    "description": "Keep track of the daily to daily expenses and give analytics.\nInstead of having to use a traditional app with icons, the user will have the faster option to type a text to \ninteract with different features of the financial app. \nThe user will just have to type a specific format of sentence that will trigger an action.\nFor example the user may type the following sentence : \"Spend 30$ on McDonalds\" (Or use the icons or boxes of the front end).\nThat suggests the app that the customer want to add to the daily expenses a record of the purchase of 30 dollars).",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/incomes": {
+      "post": {
+        "description": "Add a new income",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": "2000"
+            }
+          },
+          {
+            "name": "time",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2024-05-29T13:25:15.438285"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Amazon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/components/schemas/Expense"
+                      }
+                    ]
+                  },
+                  "example": {
+                    "amount": 2000,
+                    "time": "2024-05-29T13:25:15.438285",
+                    "origin": "Amazon"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 400,
+                    "message": "Invalid inputs"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 500,
+                    "message": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get incomes within a set of parameters",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "2000"
+            }
+          },
+          {
+            "name": "time",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2024-05-29T13:25:15.438285"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Amazon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Income"
+                  },
+                  "example": {
+                    "amount": 2000,
+                    "time": "2024-05-29T13:25:15.438285",
+                    "origin": "Amazon"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 400,
+                    "message": "Invalid inputs"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 500,
+                    "message": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/expenses": {
+      "post": {
+        "description": "Add a new expense",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": "2000"
+            }
+          },
+          {
+            "name": "time",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2024-05-29T13:25:15.438285"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Amazon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/Expense"
+                      }
+                    ],
+                    "example": {
+                      "amount": 2000,
+                      "time": "2024-05-29T13:25:15.438285",
+                      "origin": "Starbucks"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 400,
+                    "message": "Invalid inputs"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 500,
+                    "message": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "description": "Get incomes within a set of parameters",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "2000"
+            }
+          },
+          {
+            "name": "time",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "2024-05-29T13:25:15.438285"
+            }
+          },
+          {
+            "name": "origin",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Amazon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Income"
+                  },
+                  "example": {
+                    "amount": 2000,
+                    "time": "2024-05-29T13:25:15.438285",
+                    "origin": "Starbucks"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 400,
+                    "message": "Invalid inputs"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/Error"
+                  },
+                  "example": {
+                    "code": 500,
+                    "message": "Server error"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Income": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          }
+        }
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
