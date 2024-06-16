@@ -3,7 +3,9 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../template_java_project/build/classes/java/main" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../template_java_project/src" />
+    <content url="file://$MODULE_DIR$/../../template_java_project/src">
+      <sourceFolder url="file://$MODULE_DIR$/../../template_java_project/src" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.junit.jupiter:junit-jupiter:5.7.2" level="project" />

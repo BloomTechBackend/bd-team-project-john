@@ -1,0 +1,25 @@
+body{
+    margin-top: 15;
+    text-align: center;
+}
+ul{
+    height:250px;
+    overflow-y: scroll;
+    overflow: hidden;
+}
+i{
+    color:gray;
+}
+.day {
+   font-size: small;
+   font-style: normal; 
+}
+input{
+    text-align: center;
+}
+.container{
+    height: 5px;
+}
+.card{
+    width: 50%;
+}

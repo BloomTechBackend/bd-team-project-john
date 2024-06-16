@@ -108,13 +108,13 @@ String origin;
 ## 6.3 *Get income endpoint*
 
 * Accepts `GET` requests to `/incomes/:origin`
-* Accepts an incomes/origin
+  * Accepts an incomes/origin
+    * The endpoint have an optional query parameter `period` and can have only the following values :
+      `default`, `current` and `last`".
     * If the given origin does not exist trows an `InvalidAttributeException`
+    * If the `period` parameter is invalid throws an `InvalidAttributeException`
 
-*(repeat, but you can use shorthand here, indicating what is different, likely
-primarily the data in/out and error conditions. If the sequence diagram is
-nearly identical, you can say in a few words how it is the same/different from
-the first endpoint)*
+
 
 ## 6.4. *Create Expense endpoint*
 * Accepts `POST` requests to `/expenses`
@@ -127,12 +127,10 @@ the first endpoint)*
 
 * Accepts `GET` requests to `/expenses/:origin`
 * Accepts an expenses/origin
+* The endpoint have an optional query parameter `period` and can have only the following values :
+    `default`, `current` and `last`".
   * If the given origin does not exist trows an `InvalidAttributeException`
-
-*(repeat, but you can use shorthand here, indicating what is different, likely
-primarily the data in/out and error conditions. If the sequence diagram is
-nearly identical, you can say in a few words how it is the same/different from
-the first endpoint)*
+  * If the `period` parameter is invalid throws an `InvalidAttributeException`
 
 # 7. Tables
 
@@ -155,12 +153,7 @@ amount // number
 ```
 
 
-# 8. Pages
+# 8. Page
 
-*Include mock-ups of the web pages you expect to build. These can be as
-sophisticated as mockups/wireframes using drawing software, or as simple as
-hand-drawn pictures that represent the key customer-facing components of the
-pages. It should be clear what the interactions will be on the page, especially
-where customers enter and submit data. You may want to accompany the mockups
-with some description of behaviors of the page (e.g. “When customer submits the
-submit-dog-photo button, the customer is sent to the doggie detail page”)*
+![The main page resumes perfectly all the features of the project. All in one: At the tpp the cases shows the past and current 
+months expenses and at the bottom the page shows the past and current incomes ](images/mainPage.png)
